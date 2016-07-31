@@ -1,4 +1,8 @@
+# utils
 export LANG=ja_JP.UTF-8
+setopt no_beep
+autoload colors
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
 
 # completions 
 fpath=(
@@ -39,13 +43,8 @@ zstyle ':vcs_info:*' unstagedstr '*'
 function _precmd { vcs_info }
 add-zsh-hook precmd _precmd
 
-PROMPT='%2~${vcs_info_msg_0_} » '
+PROMPT='%2~${vcs_info_msg_0_} > '
 RPROMPT=''
-
-# utils
-setopt no_beep
-autoload colors
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
 
 # alias
 alias ls="${aliases[ls]:-ls} -G"
