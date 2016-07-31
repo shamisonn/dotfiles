@@ -39,6 +39,7 @@ zstyle ':vcs_info:*' enable git hg svn
 zstyle ':vcs_info:*' formats '[%b%c%u]' 
 zstyle ':vcs_info:*' actionformats '[%b%c%u|%a]'
 zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr "+"
 zstyle ':vcs_info:*' unstagedstr '*'
 function _precmd { vcs_info }
 add-zsh-hook precmd _precmd
