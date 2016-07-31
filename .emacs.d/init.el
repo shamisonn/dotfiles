@@ -1,9 +1,5 @@
-(require 'package) 
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("gnu" . "http://elpa.gnu.org/packages/"))
-(package-initialize) 
+(require 'cask)
+(cask-initialize)
 
 ;; バックアップファイルを作らない
 (setq backup-inhibited t)
@@ -64,3 +60,50 @@
 
 ;; C-c c で compile コマンドを呼び出す
 (define-key mode-specific-map "c" 'compile)
+
+
+;; company-mode
+(require 'company)
+(global-company-mode +1)
+(setq company-idle-delay 0) 
+(setq company-minimum-prefix-length 2) 
+(setq company-selection-wrap-around t)
+(global-set-key (kbd "C-M-i") 'company-complete)
+(define-key company-active-map (kbd "C-i") 'company-complete-selection)
+(define-key company-active-map (kbd "C-n") 'company-select-next)
+(define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-search-map (kbd "C-n") 'company-select-next)
+(define-key company-search-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
+(define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete)
+
+;; rainbow-delimiters
+(require 'rainbow-delimiters)
+(require 'cl-lib)
+(require 'color)
+(defun stronger-colors ()
+  (interactive)
+  (cl-loop
+   for index from 1 to rainbow-delimiters-max-face-count
+   do
+   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+     (cl-callf color-saturate-name (face-foreground face) 30))))
+(add-hook 'emacs-startup-hook 'stronger-colors)
+(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'scala-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'java-mode-hook 'rainbow-delimiters-mode)
+
+;; web-mode
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.scala\\.html$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.scss$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
+(defun web-mode-hook ()
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+(add-hook 'web-mode-hook  'web-mode-hook)
+
