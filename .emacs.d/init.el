@@ -1,12 +1,8 @@
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
 (package-initialize)
 
 (require 'cask)
 (cask-initialize)
+(add-to-list 'load-path "~/.emacs.d/.cask/25.1/")
 
 ;; バックアップファイルを作らない
 (setq backup-inhibited t)
@@ -30,8 +26,6 @@
                     :height 140)
 ;; tab幅
 (setq default-tab-width 2)
-;; タブの無効化
-(setq-default indent-tabs-mode nil)
 ;; 行番号表示
 (global-linum-mode t)
 ;; スクロールバー,ツールバー,メニューバー非表示
@@ -104,17 +98,18 @@
 
 ;; web-mode
 (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.scala\\.html$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.scss$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.scala\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (setq web-mode-auto-close-style 1)
 (setq web-mode-tag-auto-close-style 1)
 (setq web-mode-enable-auto-closing t)
+; *.scala.html にて背景色を消す
+(set-face-attribute 'web-mode-block-face nil :background "#000000")
 (defun web-mode-hook ()
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2))
-(add-hook 'web-mode-hook  'web-mode-hook)
+(add-hook 'web-mode-hook 'web-mode-hook)
 
