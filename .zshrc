@@ -47,14 +47,18 @@ function _precmd { vcs_info }
 add-zsh-hook precmd _precmd
 
 PROMPT='%2~${vcs_info_msg_0_} > '
-RPROMPT=''
+RPROMPT='[$(uname)]'
 
 # alias
-alias ls="${aliases[ls]:-ls} -G"
 alias la="ls -la"
-alias emacs="/usr/local/bin/emacs -nw"
 alias wttr="curl wttr.in"
 alias reload="exec -l $SHELL"
 
-eval "$(pyenv init -)"
+if [ "$(uname)" = 'Darwin' ]; then
+    alias ls="${aliases[ls]:-ls} -G"
+		alias emacs="/usr/local/bin/emacs -nw"
+		eval "$(pyenv init -)"
+else
+    alias ls='ls --color'
+fi
 
