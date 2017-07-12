@@ -2,7 +2,7 @@
 
 (require 'cask)
 (cask-initialize)
-(add-to-list 'load-path "~/.emacs.d/.cask/25.1/")
+(add-to-list 'load-path "~/.emacs.d/.cask/25.2/")
 
 ;; バックアップファイルを作らない
 (setq backup-inhibited t)

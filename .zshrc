@@ -57,4 +57,5 @@ alias wttr="curl wttr.in"
 alias reload="exec -l $SHELL"
 
 eval "$(pyenv init -)"
+eval "$(rbenv init -)"
 
