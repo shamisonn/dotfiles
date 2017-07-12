@@ -1,8 +1,9 @@
 (package-initialize)
 
+(add-to-list 'load-path "~/.emacs.d/.cask/25.2/")
+(add-to-list 'load-path "~/.cask/")
 (require 'cask)
 (cask-initialize)
-(add-to-list 'load-path "~/.emacs.d/.cask/25.2/")
 
 ;; バックアップファイルを作らない
 (setq backup-inhibited t)
