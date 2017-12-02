@@ -6,7 +6,6 @@
 (prefer-coding-system 'utf-8)
 ;(setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
-
 ;; font
 (set-face-attribute 'default nil
                     :family "Menlo"
@@ -20,7 +19,6 @@
 ;; set path str on titlebar
 (setq frame-title-format
       (format "%%f - Emacs"))
-
 ;; not show bars
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -42,11 +40,12 @@
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
+
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
-
 ;; package dependencies
 (defconst package-deps
   '(
@@ -58,7 +57,9 @@
 (unless package-archive-contents (package-refresh-contents))
 (dolist (pkg package-deps)
   (unless (package-installed-p pkg) (package-install pkg)))
-
+;; separate custom file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file) (load custom-file))
 
 ;; company-mode
 (require 'company)
@@ -105,7 +106,3 @@
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2))
 (add-hook 'web-mode-hook 'web-mode-hook)
-
-;; separate custom file
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(when (file-exists-p custom-file) (load custom-file))

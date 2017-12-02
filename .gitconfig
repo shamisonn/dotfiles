@@ -1,0 +1,8 @@
+[user]
+	email = unknown0incident@gmail.com
+	name = shamisonn
+[core]
+	editor = emacs -nw
+	excludesfile = ~/.gitignore
+[color]
+	ui = 1

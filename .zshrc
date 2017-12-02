@@ -43,24 +43,18 @@ zstyle ':vcs_info:*' actionformats '[%b%c%u|%a]'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr "+"
 zstyle ':vcs_info:*' unstagedstr '*'
-function _precmd { vcs_info }
-add-zsh-hook precmd _precmd
+add-zsh-hook precmd vcs_info
 
 PROMPT='%2~${vcs_info_msg_0_} > '
 RPROMPT='[$(uname)]'
 
 # alias
 alias la="ls -la"
-alias wttr="curl wttr.in"
 alias reload="exec -l $SHELL"
 
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls="${aliases[ls]:-ls} -G"
     alias emacs="/usr/local/bin/emacs -nw"
-    eval "$(pyenv init -)"
-    eval "$(rbenv init -)"
 else
     alias ls='ls --color'
 fi
-
-
