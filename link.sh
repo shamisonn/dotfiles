@@ -1,6 +1,6 @@
 #! /bin/bash
 
-prefix=$(pwd)
+prefix=$(pwd)/
 
 ln -fns $prefix.emacs.d ~/.emacs.d
 ln -fns $prefix.gitconfig ~/.gitconfig
