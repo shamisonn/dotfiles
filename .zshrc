@@ -48,6 +48,16 @@ add-zsh-hook precmd vcs_info
 PROMPT='%2~${vcs_info_msg_0_} > '
 RPROMPT='[$(uname)]'
 
+export FZF_DEFAULT_OPTS='--height 70% --reverse'
+function github() {
+    moveto=$(ghq list | fzf)
+		if ! [ "$moveto" = "" ]; then
+				cd $(ghq root)/$moveto
+		fi
+}
+autoload -Uz github
+
+
 # alias
 alias la="ls -la"
 alias reload="exec -l $SHELL"
