@@ -1,76 +1,63 @@
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-;; package dependencies
-(defvar package-deps
-  '(
-		rainbow-delimiters
-		company
-		web-mode
-		))
-;; packageの自動インストールの設定
-(defun is-installed (pkgs)
-	(when (eq (not nil) (car pkgs))
-	  (if (package-installed-p (car pkgs))
-				(is-installed (cdr pkgs))
-			(package-refresh-contents))))
-(is-installed package-deps)
-(dolist (pkg package-deps)
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
-
-;; バックアップファイルを作らない
-(setq backup-inhibited t)
-(setq make-backup-files nil)
-(setq delete-auto-save-files t)
-(setq auto-save-default nil)
-;; 日本語
-(set-language-environment 'Japanese)
-;; UTF-8
+;; charset UTF-8
 (set-default-coding-systems 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-buffer-file-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-;;(setq coding-system-for-read 'utf-8)
+;(setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
-;; Font
+
+;; font
 (set-face-attribute 'default nil
                     :family "Menlo"
                     :height 140)
-;; tab幅
+;; tab width
 (setq default-tab-width 2)
-;; tabをスペースにする。
+;; tab to space
 (setq indent-tabs-mode nil)
-;; 行番号表示
+;; show row number
 (global-linum-mode t)
-;; スクロールバー,ツールバー,メニューバー非表示
+;; set path str on titlebar
+(setq frame-title-format
+      (format "%%f - Emacs"))
+
+;; not show bars
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (set-scroll-bar-mode nil)
-;; タイトルバーにファイルのフルパス表示
-(setq frame-title-format
-      (format "%%f - Emacs"))
-;; スタートアップをひょうじさせない
+;; not show startup
 (setq inhibit-startup-message t)
-;; 警告音を消す
+;; delete noise
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
-;; 対応括弧をハイライト
+;; highlight brackets
 (show-paren-mode t)
-;;対応括弧を補完
+;; auto complete brackets
 (electric-pair-mode t)
-;; C-hをBackspaceに
+;; bind backspace on C-h
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
-;; 検索(全般)時には大文字小文字の区別をしない
+;; ignore case
 (setq case-fold-search t) 
-;; インクリメンタルサーチ時には大文字小文字の区別をしない
 (setq isearch-case-fold-search t)
-;; バッファー名の問い合わせで大文字小文字の区別をしない
 (setq read-buffer-completion-ignore-case t)
-;; ファイル名の問い合わせで大文字小文字の区別をしない
 (setq read-file-name-completion-ignore-case t)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+;; package dependencies
+(defconst package-deps
+  '(
+    company
+    rainbow-delimiters
+    web-mode
+    ))
+;; auto install packages
+(unless package-archive-contents (package-refresh-contents))
+(dolist (pkg package-deps)
+  (unless (package-installed-p pkg) (package-install pkg)))
 
 
 ;; company-mode
@@ -83,10 +70,9 @@
 (define-key company-active-map (kbd "C-i") 'company-complete-selection)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
 (define-key company-search-map (kbd "C-n") 'company-select-next)
 (define-key company-search-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
-(define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete)
 
 ;; rainbow-delimiters
 (require 'rainbow-delimiters)
@@ -96,15 +82,11 @@
   (interactive)
   (cl-loop
    for index from 1 to rainbow-delimiters-max-face-count
-   do
+	 do
    (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
      (cl-callf color-saturate-name (face-foreground face) 30))))
 (add-hook 'emacs-startup-hook 'stronger-colors)
-(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'scala-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'java-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; web-mode
 (require 'web-mode)
@@ -116,7 +98,7 @@
 (setq web-mode-auto-close-style 1)
 (setq web-mode-tag-auto-close-style 1)
 (setq web-mode-enable-auto-closing t)
-; *.scala.html にて背景色を消す
+; To clean background color at editing *.scala.html
 (set-face-attribute 'web-mode-block-face nil :background "#000000")
 (defun web-mode-hook ()
   (setq web-mode-markup-indent-offset 2)
@@ -124,18 +106,6 @@
   (setq web-mode-code-indent-offset 2))
 (add-hook 'web-mode-hook 'web-mode-hook)
 
-;; org-mode
-(require 'org-install)
-(setq org-directory "~/org/")
-(setq org-agenda-files (list (expand-file-name "~/org/")))
-(require 'org-capture)
-(setq org-capture-templates
-      '(("t" "タスク" entry (file+headline nil "TODOリスト")
-         "** TODO %?\n %U\n")
-        ("m" "メモ" entry (file+headline nil "メモ")
-         "** %?\n %U\n")
-        ("d" "日記" entry (file (expand-file-name "~/org/diaries.org"))
-				 "* %?\n %U\n")))
-(setq org-default-notes-file (concat org-directory "notes.org"))			
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
+;; separate custom file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file) (load custom-file))
