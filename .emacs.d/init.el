@@ -16,6 +16,8 @@
 (setq indent-tabs-mode nil)
 ;; show row number
 (global-linum-mode t)
+;; set row number's line
+(setq linum-format "%3d|")
 ;; set path str on titlebar
 (setq frame-title-format
       (format "%%f - Emacs"))
@@ -52,6 +54,7 @@
     company
     rainbow-delimiters
     web-mode
+		solarized-theme
     ))
 ;; auto install packages
 (unless package-archive-contents (package-refresh-contents))

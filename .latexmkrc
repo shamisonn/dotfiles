@@ -5,7 +5,7 @@ $latex  = 'platex -halt-on-error -shell-escape %O %S';
 $dvipdf = 'dvipdfmx %S';
 $bibtex = 'pbibtex';
 
-# platex -> dvipdfmx 
+# platex -> dvipdfmx
 $pdf_mode = 3;
 
 # mac setting

@@ -64,7 +64,9 @@ alias reload="exec -l $SHELL"
 
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls="${aliases[ls]:-ls} -G"
-    alias emacs="/usr/local/bin/emacs -nw"
+    alias emacsk='/usr/local/bin/emacsclient -e "(kill-emacs)"'		
+    alias emacsd="/usr/local/bin/emacs --daemon"
+    alias emacs="env TERM=xterm /usr/local/bin/emacsclient -nw"		
 else
     alias ls='ls --color'
 fi
