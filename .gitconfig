@@ -3,6 +3,16 @@
 	name = shamisonn
 [core]
 	editor = emacs -nw
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/shami/.gitignore
 [color]
 	ui = 1
+
+[ghq]
+	root = /Users/shami/go/src
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

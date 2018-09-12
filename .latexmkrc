@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 # allow recursive search
-$latex  = 'platex -halt-on-error -shell-escape %O %S';
+$latex  = 'platex -halt-on-error --shell-escape %O %S';
 $dvipdf = 'dvipdfmx %S';
 $bibtex = 'pbibtex';
 

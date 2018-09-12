@@ -8,8 +8,8 @@
 (setq coding-system-for-write 'utf-8)
 ;; font
 (set-face-attribute 'default nil
-                    :family "Menlo"
-                    :height 140)
+                    :family "Noto Sans Mono CJK JP"
+                    :height 142)
 ;; tab width
 (setq default-tab-width 2)
 ;; tab to space
@@ -99,12 +99,15 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.scala\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 (setq web-mode-auto-close-style 1)
 (setq web-mode-tag-auto-close-style 1)
 (setq web-mode-enable-auto-closing t)
 ; To clean background color at editing *.scala.html
 (set-face-attribute 'web-mode-block-face nil :background "#000000")
 (defun web-mode-hook ()
+	(setq web-mode-script-padding 0)
+	(setq web-mode-style-padding 0)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 2))
