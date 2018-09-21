@@ -1,3 +1,31 @@
+# path
+set -U fish_user_paths \
+     /usr/local/bin \
+     /usr/local/texlive/2015/bin/x86_64-darwin \
+     /usr/local/opt/inetutils/libexec/gnubin \
+     $HOME/go/bin \
+     $HOME/.poem/bin \
+     $HOME/.rbenv/shims \
+     $fish_user_paths
+# $HOME/Applications/IBM/ILOG/CPLEX_Studio1261/cplex/bin/x86-64_osx/ \
+
+#rbenv init
+set -gx PATH '/Users/shami/.rbenv/shims' $PATH
+set -gx RBENV_SHELL fish
+source '/usr/local/Cellar/rbenv/1.1.1/libexec/../completions/rbenv.fish'
+command rbenv rehash 2>/dev/null
+function rbenv
+  set command $argv[1]
+  set -e argv[1]
+
+  switch "$command"
+  case rehash shell
+    source (rbenv "sh-$command" $argv|psub)
+  case '*'
+    command rbenv "$command" $argv
+  end
+end
+
 # prompt
 function fish_prompt
     printf "%s %s " (prompt_pwd) (set_color brwhite)(echo ">")
@@ -51,11 +79,14 @@ export FZF_DEFAULT_OPTS='--height 70% --reverse'
 function cmds -d "select past commnads"
     eval (commandline (history | awk '!a[$0]++' | fzf))
 end
-bind \cs cmds # bind C-s
+# bind C-s
+eval (tty -s; stty stop undef)
+bind \cs cmds
 
 function github -d "select ghq folders"
     cd (ghq root)/(ghq list | fzf)
 end
+
 
 # alias
 alias reload="source ~/.config/fish/config.fish"
