@@ -16,4 +16,3 @@ sh ./installer.sh ~/.cache/dein
 rm ./installer.sh
 mkdir -p ~/.config/nvim
 ln -fns $prefix/init.vim ~/.config/nvim/init.vim
-
