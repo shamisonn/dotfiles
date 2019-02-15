@@ -54,7 +54,7 @@
     company
     rainbow-delimiters
     web-mode
-		solarized-theme
+    solarized-theme
     ))
 ;; auto install packages
 (unless package-archive-contents (package-refresh-contents))

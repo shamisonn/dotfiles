@@ -83,17 +83,33 @@ end
 eval (tty -s; stty stop undef)
 bind \cs cmds
 
-function github -d "select ghq folders"
+function ghqq -d "select ghq folders"
     cd (ghq root)/(ghq list | fzf)
 end
 
-
+export JK_WRITE_ROOT='/Users/shami/go/src/github.com/shamisonn/shamisonn.github.io/_posts'
+alias jkn="jk-write new"
+alias jkcd="cd (jk-write root)"
+function jkw -d "write jekyll post"
+    eval "jk-write list -r | fzf --query (commandline)" | read -z select
+    if not test -z $select
+        eval "nvim (jk-write root)/(builtin string trim "$select")"
+    end
+    commandline -f repaint
+end
+function jkrm -d "remove jekyll post"
+    eval "jk-write list -r | fzf --query (commandline)" | read -z select
+    if not test -z $select
+        eval "rm (jk-write root)/(builtin string trim "$select")"
+    end
+    commandline -f repaint	 
+end
 # alias
 alias reload="source ~/.config/fish/config.fish"
 if test (uname) = Darwin
     alias emacs="~/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
     alias rm="rmtrash"
+    alias vim="nvim"
+    alias vi="nvim"
 end
-
-
 
