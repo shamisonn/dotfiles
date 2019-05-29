@@ -24,7 +24,7 @@ zstyle ':completion:*:default' menu select=2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # history
-HISTFILE=~/.zsh_history
+HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt hist_ignore_all_dups
@@ -49,21 +49,25 @@ PROMPT='%2~${vcs_info_msg_0_} > '
 RPROMPT='[$(uname)]'
 
 export FZF_DEFAULT_OPTS='--height 70% --reverse'
-function github() {
-    moveto=$(ghq list | fzf)
-    if ! [ "$moveto" = "" ]; then
-	cd $(ghq root)/$moveto
-    fi
+function ghqq() {
+	moveto=$(ghq list | fzf)
+	if ! [ "$moveto" = "" ]; then
+		cd $(ghq root)/$moveto
+	fi
 }
-autoload -Uz github
-
+autoload -Uz ghqq
 
 # alias
 alias la="ls -la"
 alias reload="exec -l $SHELL"
+alias vi="nvim"
+alias vim="nvim"
+alias editvim="nvim ~/dotfiles/init.vim"
+alias editzsh="nvim ~/dotfiles/zshrc"
+alias edittmux="nvim ~/dotfiles/tmux.conf"
+alias cdnvimswap="cd /Users/uetash/.local/share/nvim/swap"
 if [ "$(uname)" = 'Darwin' ]; then
     alias ls="${aliases[ls]:-ls} -G"
-    alias emacs="~/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
 else
     alias ls='ls --color'
 fi

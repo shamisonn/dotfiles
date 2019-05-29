@@ -1,69 +1,89 @@
-" vim:fdm=marker
 if&compatible
-	set nocompatible
+ set nocompatible
 endif
-" Plugs {{{ 
-call plug#begin('~/.config/nvim/plugged')
-
-Plug 'joshdick/onedark.vim'
+call plug#begin('~/.vim/plugged')
+" theme
 Plug 'vim-airline/vim-airline'
-
+Plug 'vim-airline/vim-airline-themes'
+Plug 'joshdick/onedark.vim'
+" lsp
+Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" html
+Plug 'alvan/vim-closetag'
+" vue
+Plug 'posva/vim-vue'
 call plug#end()
-filetype plugin indent on
-" }}}
 
-" go setting {{{
+" html
+let g:closetag_filenames = '*.html'
+
+" php
+if executable('intelephense')
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'intelephense',
+				\ 'cmd': {server_info->['intelephense', '--stdio']},
+				\ 'initialization_options': {"storagePath": "/tmp/intelephense"},
+				\ 'whitelist': ['php'],
+				\ })	
+endif
+let g:php_baselib = 1
+let g:php_htmlInStrings = 1
+let g:php_noShortTags = 1
+let g:php_sql_query = 1
+let g:sql_type_default = 'mysql'
+" vue
+if executable('vls')
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'vue language server',
+				\ 'cmd': { server_info->['vls']},
+				\ 'whitelist': ['vue'],
+				\ 'initialization_options': {
+				\     'config': {'html': {},'vetur': {'validation': {}}}
+				\   },
+				\ })
+endif
+" ts, js
+if executable('javascript-typescript-stdio')
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'javascript support using javascript-typescript-stdio',
+				\ 'cmd': { server_info->['javascript-typescript-stdio']},
+				\ 'whitelist': ['javascript', 'javascript.jsx']
+				\ })
+endif
+
+" golang
 if executable('go-langserver')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'go-langserver',
-        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
-        \ 'whitelist': ['go'],
-        \ })
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'go-langserver',
+				\ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+				\ 'whitelist': ['go'],
+				\ })
 endif
+let g:lsp_async_completion = 1
 
-let g:go_fmt_command = "goimports"
-" we have lsp, so off funcs
-let g:go_def_mapping_enabled = 0
-let g:go_doc_keywordprg_enabled = 0
-" }}}
-
-" common settings {{{
-set number
-set ignorecase
-set smartcase
-" set hlsearch
-set noerrorbells
-set showmatch matchtime=1
-set display=lastline
-set cursorline
-
-set autoindent
+set shiftwidth=4
+set tabstop=4
 set smartindent
-set tabstop=2
-set shiftwidth=2
-set noexpandtab
+set expandtab
+set number
+set ambiwidth=double "2byte文字対応
+set whichwrap=h,l,b,s,<,>,[,]
 
-set whichwrap=b,s,[,],<,>
-" }}}
-
-" color-scheme settings {{{
-if (has("nvim"))
-	"For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-	let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-if (has("termguicolors"))
-	set termguicolors
-endif "
 let g:airline_theme='onedark'
 syntax on 
 colorscheme onedark
-" }}}
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+
+" use 256 colors
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+" mouse
+set mouse=a
+
